@@ -55,10 +55,12 @@ height="24"
 </g>
 </svg>
 
-const TaskCard = ({task, updateTaskPoints}: {
+const TaskCard = ({task, updateTaskPoints, updateTaskTitle}: {
   task: Task
   updateTaskPoints: (task: Task, points: number) => void
+  updateTaskTitle: (task: Task, title: string) => void
  }) => {
+  const [isEditingTitle, setIsEditingTitle] = useState(false)
   const points = task.points || 0
   const updatePoints = (direction: 'up' | 'down') => {
     const fib = [0,1,2,3,5,8,13]
@@ -69,8 +71,19 @@ const TaskCard = ({task, updateTaskPoints}: {
       updateTaskPoints(task, newPoints)
     }
    }
-    return <div className="border rounded-lg px-2 m-2 bg-gray-50 w-52">
-      <div className='text-base font-base py-2'>
+    return <div className="border rounded-lg px-2 m-2 bg-gray-50 w-56">
+      {isEditingTitle ? (
+        <input
+          autoFocus
+          className="w-full"
+          onBlur={() => setIsEditingTitle(false)}
+          value={task.title}
+          onChange={(e) => updateTaskTitle(task, e.target.value)}
+        >
+        </input>
+      ):(
+        <>
+          <div className='text-base font-base py-2' onClick={() => setIsEditingTitle(true)}>
          {task.title}!!!
       </div>
       <div className={'flex gap-4 justify-between py-2 text-gray-500 text-sm'}>
@@ -86,7 +99,10 @@ const TaskCard = ({task, updateTaskPoints}: {
           <div className={'font-bold'}>{points}</div>
           <button onClick={() => updatePoints('up')}>+</button>
         </div>
-      </div>
+      </div> 
+        </>
+      )}
+     
     </div>
   } 
 
