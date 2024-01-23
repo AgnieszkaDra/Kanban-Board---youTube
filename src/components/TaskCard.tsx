@@ -70,7 +70,13 @@ const TaskCard = ({task, updateTask}: {
       updateTask({ ...task, points: newPoints })
     }
    }
-    return <div className="border rounded-lg px-2 m-2 bg-gray-50 w-56">
+    return <div 
+    draggable
+    onDragStart={(e) => {
+      e.dataTransfer.setData("id", task.id)
+    }} 
+    className="border rounded-lg px-2 m-2 bg-gray-50 w-56"
+    >
       {isEditingTitle ? (
         <input
           autoFocus
