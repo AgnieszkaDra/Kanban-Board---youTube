@@ -55,10 +55,9 @@ height="24"
 </g>
 </svg>
 
-const TaskCard = ({task, updateTaskPoints, updateTaskTitle}: {
+const TaskCard = ({task, updateTask}: {
   task: Task
-  updateTaskPoints: (task: Task, points: number) => void
-  updateTaskTitle: (task: Task, title: string) => void
+  updateTask: (task: Task) => void
  }) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const points = task.points || 0
@@ -68,7 +67,7 @@ const TaskCard = ({task, updateTaskPoints, updateTaskTitle}: {
     const nextIndex = direction === 'up' ? index + 1 : index - 1
     const newPoints = fib[nextIndex]
     if(newPoints) {
-      updateTaskPoints(task, newPoints)
+      updateTask({ ...task, points: newPoints })
     }
    }
     return <div className="border rounded-lg px-2 m-2 bg-gray-50 w-56">
@@ -78,7 +77,7 @@ const TaskCard = ({task, updateTaskPoints, updateTaskTitle}: {
           className="w-full"
           onBlur={() => setIsEditingTitle(false)}
           value={task.title}
-          onChange={(e) => updateTaskTitle(task, e.target.value)}
+          onChange={(e) => updateTask({ ...task, title: e.target.value })}
         >
         </input>
       ):(

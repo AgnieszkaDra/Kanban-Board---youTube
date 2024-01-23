@@ -14,17 +14,19 @@ function App() {
   })
 
   const updateTaskPoints = (task: Task, points: number) => {
-    const updatedTasks = tasks.map((t) => {
-      return t.id === task.id ? { ...t, points } : t
-      })
-      setTasks(updatedTasks)
+    updateTask({ ...task, points })
   }
 
-  const updateTaskTitle = (task: Task, title: number) => {
+  const updateTaskTitle = (task: Task, title: string) => {
+   updateTask({ ...task, title })
+  }
+
+
+  const updateTask = (task: Task) => {
     const updatedTasks = tasks.map((t) => {
-      return t.id === task.id ? { ...t, title } : t
-      })
-      setTasks(updatedTasks)
+      return t.id === task.id ? task : t
+    })
+    setTasks(updatedTasks)
   }
 //  const todoTasks = tasks.filter((task) => task.status === 'todo')
 //  const inProgressTasks = tasks.filter((task) => task.status === 'in-progress')
@@ -38,11 +40,10 @@ function App() {
             {column.tasks.reduce((total, task) => total + (task?.points || 0), 0)} 
           </div> 
           {column.tasks.map((task) => (
-            <TaskCard 
-              task={task}
-              updateTaskPoints={updateTaskPoints}
-              updateTaskTitle={updateTaskTitle}
-            />
+            <TaskCard
+            task={task}
+            updateTask={updateTask}
+          />
           ))}
         </div>
       ))}
